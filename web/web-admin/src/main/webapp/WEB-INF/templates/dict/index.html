@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/head :: head"></head>
+
+<link rel="stylesheet" th:href="@{/static/js/plugins/zTree_v3/zTreeStyle.css}" type="text/css">
+<script type="text/javascript" th:src="@{/static/js/plugins/zTree_v3/jquery.ztree.core.js}"></script>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox float-e-margins">
+        <div class="ibox-content" style="width: 98%;">
+
+            <div class="zTreeDemoBackground left">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var setting = {
+        async: { //异步请求
+            enable: true, //启用异步方式加载树结构
+            url:"/dict/findZnodes", //指定请求地址，获取树节点数据  /dict/findZnodes?id=xxx
+            autoParam:["id"], //传递树节点一些属性值给服务器，这些属性名称固定。id就是节点的主键
+            //therParam:{"otherParam":"zTreeAsyncTest"},
+            dataFilter: filter
+        }
+    };
+
+    // result 表示controller方法返回的结果，将数据封装到result对象中。
+    function filter(treeId, parentNode, result) { //对服务器返回的数据进行过滤。
+        var childNodes = result.data;
+        if (!childNodes) return null;
+        for (var i=0, l=childNodes.length; i<l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');  // 将多个.n都替换为.
+        }
+        return childNodes;
+    }
+
+    $(document).ready(function(){
+        $.fn.zTree.init($("#treeDemo"), setting);
+    });
+</script>
+</body>
+</html>

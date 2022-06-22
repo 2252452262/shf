@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.dao.DictDao">
+
+    <!--映射： Object-Relationship Mapping-->
+    <resultMap id="Dict" type="Dict">
+        <id property="id" column="id"></id>
+        <result property="parentId" column="parent_id"></result>
+        <result property="name" column="name"></result>
+        <result property="dictCode" column="dict_code"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="updateTime" column="update_time"></result>
+        <result property="isDeleted" column="is_deleted"></result>
+    </resultMap>
+
+    <!--复用查询的字段-->
+    <sql id="column">
+        id,parent_id,name,dict_code,create_time,update_time,is_deleted
+    </sql>
+
+    <!--
+        保存： bean对象保存前id属性是没有值的。保存后，执行了insert语句，数据库分配主键值。
+            mybatis框架会获取数据库分配的主键值，并赋值给bean对象的id属性。这个过程，我们称为主键回填。
+    -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into hse_dict(parent_id,name,dict_code)
+        values(#{parentId},#{name},#{dictCode})
+    </insert>
+
+    <select id="getById" resultMap="Dict">
+        select <include refid="column"></include>
+        from hse_dict where id=#{id} and is_deleted=0
+    </select>
+
+    <update id="update">
+        update hse_dict
+        <set>
+            <if test="parentId!=null and parentId!=''">
+                parent_id=#{parentId},
+            </if>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="dictCode!=null and dictCode!=''">
+                dict_code=#{dictCode},
+            </if>
+            update_time = now()
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--软删除：就是修改表的is_deleted字段值： 0 表示正常    1 表示被删除-->
+    <delete id="delete">
+        update hse_dict set is_deleted = 1 ,update_time = now() where id = #{id}
+    </delete>
+    
+    
+    
+    <select id="findZnodesByParentId" parameterType="long" resultMap="Dict">
+        select <include refid="column"></include>
+        from hse_dict
+        where parent_id=#{parentId}
+    </select>
+    
+    <select id="countIsParent" parameterType="long" resultType="int">
+        select count(*) from hse_dict where parent_id=#{parentId}
+    </select>
+
+    <select id="findDictByDictCode" parameterType="string" resultMap="Dict">
+        select <include refid="column"></include>
+        from hse_dict
+        where dict_code=#{dictCode}
+    </select>
+    
+    
+    <select id="getNameById" parameterType="long" resultType="string">
+        select name from hse_dict where id=#{id}
+    </select>
+
+</mapper>
