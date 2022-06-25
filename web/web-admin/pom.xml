@@ -32,7 +32,7 @@
                     </webAppConfig>
                     <httpConnector>
                         <!--端口号，默认 8080-->
-                        <port>8000</port>
+                        <port>8001</port>
                     </httpConnector>
                 </configuration>
             </plugin>

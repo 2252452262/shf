@@ -64,7 +64,8 @@ public class DictServiceImpl extends BaseServiceImpl<Dict> implements DictServic
         try (Jedis jedis = jedisPool.getResource()) {
             String value = jedis.get(key);
             if (!StringUtils.isEmpty(value)) {
-                return JSON.parseArray(value, Dict.class);
+                Object parse = JSON.parse(value);
+                return JSON.parseArray(parse.toString(), Dict.class);
             }
 
             List<Dict> list = dictDao.findZnodesByParentId(parentId);
