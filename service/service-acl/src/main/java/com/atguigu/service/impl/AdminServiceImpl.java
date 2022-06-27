@@ -29,4 +29,9 @@ public class AdminServiceImpl extends BaseServiceImpl<Admin> implements AdminSer
     public List<Admin> findAll() {
         return adminDao.findAll();
     }
+
+    @Override
+    public Admin getByUsername(String username) {
+        return adminDao.getByUsername(username);
+    }
 }

@@ -3,6 +3,7 @@ package com.atguigu.base;
 import com.github.pagehelper.Page;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 public interface BaseDao<T> {
@@ -16,4 +17,6 @@ public interface BaseDao<T> {
     Integer delete(Serializable id);
 
     Page<T> findPage(Map<String, Object> filters);
+
+    void insertBatch(List<T> list);
 }

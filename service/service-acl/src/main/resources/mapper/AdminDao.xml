@@ -108,4 +108,13 @@
         from acl_admin
         where is_deleted = 0;
     </select>
+
+    <select id="getByUsername" resultMap="Admin">
+        select
+        <include refid="column"/>
+        from acl_admin
+        where
+        username = #{username}
+        and is_deleted = 0
+    </select>
 </mapper>

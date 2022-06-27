@@ -7,19 +7,19 @@
                      http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-        <property name="username" value="root" />
-        <property name="password" value="2252" />
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="username" value="root"/>
+        <property name="password" value="2252"/>
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <!--如果驱动版本是5.7，驱动类：com.mysql.jdbc.Driver-->
         <!--如果驱动版本是8，驱动类：com.mysql.cj.jdbc.Driver-->
-        <property name="url" value="jdbc:mysql://localhost:3306/db_house"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/db_house?rewriteBatchedStatements=true"/>
     </bean>
     <!--spring和mybatis整合的工厂bean-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
+        <property name="dataSource" ref="dataSource"/>
         <!--sql映射配置文件中使用的实体类型，无需指定报名。简化开发。-->
         <property name="typeAliasesPackage" value="com.atguigu.entity"></property>
-        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="mapperLocations">
             <array>
                 <value>classpath:mapper/*.xml</value>
