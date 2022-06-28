@@ -1,2 +1,2 @@
 # 尚好房
-SSM、Spring Security、Thymeleaf、Dubbo、ZooKeeper、Redis、jQuery、Vue.js
+Maven、Spring、Spring MVC、MyBatis、Spring Security、Spring Session、Dubbo、ZooKeeper、MySQL、Redis、Thymeleaf、jQuery、Vue.js
